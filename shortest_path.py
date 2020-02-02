@@ -1,8 +1,12 @@
-import spotipy
+import collections
 import os
+import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 
 def artist_prompt():
+    """ returns list of starting and ending nodes provided by user
+
+    """
 
     starting_artist_prompt = input("Enter the artist you would like to start at: ")
     ending_artist_prompt = input("Enter the artist you would like to end at: ")
@@ -23,59 +27,46 @@ def artist_prompt():
     return [starting_artist_id, ending_artist_id]
     
 
-#Need to implement a queue (maybe a list and just add/remove as necessary)
-def pathfinder(starting_node, ending_node, path, discovered):
-    """ returns path from starting_node to ending_node
-
-    starting_node - id for starting artist (string)
-
-    ending_node   - id for ending artist (string)
-
-    path          - current path (list)
-
-    discovered    - starting nodes that have already been searched from (set)
-    """
-
-    path.append(sp.artist(starting_node)['name'])
-
-    related_artists = [artist_id['id'] for artist_id in sp.artist_related_artists(starting_node)['artists']]
-    discovered = set()
-
-    if ending_node in related_artists:
-        path.append(sp.artist(ending_node)['name'])
-        return path
-
-    elif starting_node == ending_node:
-        return path
-
-    else:
-        discovered.update(starting_node) # Add starting node to discovered nodes
-
-        while ending_node not in related_artists:
-            for related_artist in related_artists:
-            
-
-    return path
-
-            
-
-#    for artist in related_artists['artists']:
-#        if artist['id'] == ending_node:
-#            path.append(artist['name'])
-#            
-#            return path
+#def backtrack(starting_node, ending_node, solution_dictionary):
+#    path = [ending_node] 
 #
-#        else:
-#            path.append(artist['name'])
-#            pathfinder(artist['id'], ending_node, path)
+#    while ending_node != starting_node:
+#        path.append(solution_dictionary[ending_node])
+#        ending_node = solution_dictionary[ending_node]
 #
+#    return path
 
+    
+def BFS(starting_node):
+    frontier = collections.deque()
+    solution = {starting_node: starting_node}
+    visited  = set() 
+
+    frontier.append(starting_node)
+    visited.add(starting_node)
+
+    while len(frontier) != 0 and len(frontier) <= 1000:
+        current = frontier.popleft()
+
+        for artist in sp.artist_related_artists(current)['artists']:
+            if artist['id'] not in visited:
+                frontier.append(artist['id'])
+                solution[artist['id']] = current
+                #solution[current] = artist['id']
+                visited.add(artist['id'])
+
+
+    return solution
+            
 
 if __name__ == "__main__":
     sp = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_id=os.environ['SPOTIPY_CLIENT_ID'],client_secret=os.environ['SPOTIPY_CLIENT_SECRET']))
 
     starting_and_ending = artist_prompt()
 
-    shortest_path = pathfinder(starting_and_ending[0],starting_and_ending[1], list(), set()) 
+    graph = BFS(starting_and_ending[0])
 
-    print(shortest_path)
+    print(graph)
+#    path = backtrack(starting_and_ending[0], starting_and_ending[1], graph)
+
+#    print(path)
