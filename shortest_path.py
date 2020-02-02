@@ -27,15 +27,22 @@ def artist_prompt():
     return [starting_artist_id, ending_artist_id]
     
 
-#def backtrack(starting_node, ending_node, solution_dictionary):
-#    path = [ending_node] 
-#
-#    while ending_node != starting_node:
-#        path.append(solution_dictionary[ending_node])
-#        ending_node = solution_dictionary[ending_node]
-#
-#    return path
+def backtrack(starting_node, ending_node, solution_dictionary):
+    id_path = [ending_node] 
 
+    # If artists are more than 1000 layers deep this will run forever (careful)
+    while ending_node != starting_node:
+        id_path.append(solution_dictionary[ending_node])
+        ending_node = solution_dictionary[ending_node]
+
+    name_path = list()
+
+    for identification in id_path:
+        name_path.append(sp.artist(identification)['name'])
+
+    name_path.reverse()
+
+    return name_path
     
 def BFS(starting_node):
     frontier = collections.deque()
@@ -66,7 +73,6 @@ if __name__ == "__main__":
 
     graph = BFS(starting_and_ending[0])
 
-    print(graph)
-#    path = backtrack(starting_and_ending[0], starting_and_ending[1], graph)
+    path = backtrack(starting_and_ending[0], starting_and_ending[1], graph)
 
-#    print(path)
+    print(path)
