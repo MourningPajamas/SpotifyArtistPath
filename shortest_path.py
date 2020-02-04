@@ -37,6 +37,7 @@ def backtrack(starting_node, ending_node, solution_dictionary):
         roughly the number of nodes in the graph provided in BFS function
 
         Parameters:
+
             starting_node       - id for artist to start at (string)
 
             ending_node         - id for artist to end at (string)
@@ -65,6 +66,13 @@ def backtrack(starting_node, ending_node, solution_dictionary):
     return name_path
     
 def BFS(starting_node):
+    """ returns dictionary of the links between artists
+
+        Parameters:
+
+            starting_node - id for the starting artist (string)
+
+    """
     frontier = collections.deque()
     solution = {starting_node: starting_node}
     visited  = set() 
@@ -72,7 +80,8 @@ def BFS(starting_node):
     frontier.append(starting_node)
     visited.add(starting_node)
 
-    while len(frontier) != 0 and len(frontier) <= 5000:
+    # len(frontier) can be adjusted to include deeper search, but time will increase
+    while len(frontier) != 0 and len(frontier) <= 5000: 
         current = frontier.popleft()
 
         for artist in sp.artist_related_artists(current)['artists']:
@@ -88,6 +97,7 @@ def BFS(starting_node):
 
 if __name__ == "__main__":
 
+    # Create spotipy object using environment variables as credentials
     sp = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_id=os.environ['SPOTIPY_CLIENT_ID'],client_secret=os.environ['SPOTIPY_CLIENT_SECRET']))
 
     starting_and_ending = artist_prompt()
