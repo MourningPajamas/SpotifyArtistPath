@@ -65,12 +65,14 @@ def backtrack(starting_node, ending_node, solution_dictionary):
 
     return name_path
     
-def BFS(starting_node):
+def BFS(starting_node, ending_node):
     """ returns dictionary of the links between artists
 
         Parameters:
 
             starting_node - id for the starting artist (string)
+
+            ending_node   - id for the starting artist (string)
 
     """
     frontier = collections.deque()
@@ -80,8 +82,8 @@ def BFS(starting_node):
     frontier.append(starting_node)
     visited.add(starting_node)
 
-    # len(frontier) can be adjusted to include deeper search, but time will increase
-    while len(frontier) != 0 and len(frontier) <= 5000: 
+    # This only works if there is a connection from every artist to every other artist
+    while len(frontier) != 0 and ending_node not in solution.keys(): 
         current = frontier.popleft()
 
         for artist in sp.artist_related_artists(current)['artists']:
@@ -102,7 +104,7 @@ if __name__ == "__main__":
 
     starting_and_ending = artist_prompt()
 
-    graph = BFS(starting_and_ending[0])
+    graph = BFS(starting_and_ending[0], starting_and_ending[1])
 
     path = backtrack(starting_and_ending[0], starting_and_ending[1], graph)
 
