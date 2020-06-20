@@ -136,25 +136,25 @@ def DrawGraph(list_of_nodes, list_of_edges, shortest_path):
             node_color_map.append('blue')
 
 
-#    shortest_path_edges = []
-#    for i in range(len(shortest_path)-1):
-#        shortest_path_edges.append((shortest_path[i], shortest_path[i+1]))
-
-#    G.add_edges_from(shortest_path_edges, edge_color='r', width=10)
-
-#    edge_color_map = []
-#    for edge in list_of_edges:
-#        if edge in shortest_path_edges:
-#            print(edge[0],edge[1])
-#            G.add_edge(edge[0],edge[1])
-#            edge_color_map.append('red')
-#
-#        else:
-#            G.add_edge(edge[0],edge[1])
-#            edge_color_map.append('blue')
+    shortest_path_edges = []
+    for i in range(len(shortest_path)-1):
+        if i == 0:
+            shortest_path_edges.append((shortest_path[i+1], shortest_path[i]))
+        else:
+            shortest_path_edges.append((shortest_path[i], shortest_path[i+1]))
 
 
-    nx.draw(G, node_color=node_color_map, with_labels=True)
+    edge_color_map = []
+    for edge in G.edges():
+
+        if edge in shortest_path_edges:
+            edge_color_map.append('red')
+
+        else:
+            edge_color_map.append('blue')
+
+
+    nx.draw(G, node_color=node_color_map, edge_color=edge_color_map, with_labels=True)
 
     plt.draw()
     plt.show()
