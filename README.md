@@ -20,12 +20,14 @@ Next, go to the dashboard at the top and select the "Create An App" option. Name
 #### Setting Environment variables
 On the app page you should have a Client ID on the left hand side as well as a "Show Client Secret" option. We will need these in order to get information from Spotify.
 
-You can store these in code, however, this is not recommended. A better option is to store them in environment variables.
+You can store these in the code, however, this is not recommended. A better option is to store them in environment variables.
 
 On linux this can be done by running:
 
 > export SPOTIPY_CLIENT_ID="Spotify_Client_ID"
+>
 > export SPOTIPY_CLIENT_SECRET="Spotify_Client_Secret"
+>
 > export SPOTIPY_REDIRECT_URI="https://www.google.com/"
 
 For windows users, please check [this](https://www.techjunkie.com/environment-variables-windows-10/) link on how to set environment variables.
