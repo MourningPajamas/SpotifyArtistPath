@@ -146,7 +146,6 @@ def DrawGraph(list_of_nodes, list_of_edges, shortest_path):
 
     edge_color_map = []
     for edge in G.edges():
-
         if edge in shortest_path_edges:
             edge_color_map.append('red')
 
@@ -175,4 +174,23 @@ if __name__ == "__main__":
 
     path = backtrack(starting_and_ending[0], starting_and_ending[1], search_results)
 
-    DrawGraph(nodes, edges_list, path)
+    while True:
+        response = input("Would you like to print the path in a graph or in a list? (Note that large graphs will be hard to interpret): ")
+
+        if response == "graph":
+            DrawGraph(nodes, edges_list, path)
+            break
+        
+        elif response == "list":
+            arrow_path = ""
+            
+            for artist in path[:-1]:
+                arrow_path += (artist + " -> ")
+
+            arrow_path += path[-1]
+            print(arrow_path)
+            break
+
+        else:
+            print("Please enter graph or list")
+
