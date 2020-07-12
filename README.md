@@ -35,7 +35,7 @@ For windows users, please check [this](https://www.techjunkie.com/environment-va
 Once this is done you should be all set.
 
 
-#### Improvements to be made
+### Improvements to be made
 * Since this uses a breadth-first search it can be very slow to get the final result. Optimizations within the code would help to reduce this significantly, possibly using numpy.
 * Clean up nodes on visualization and spread out graph so that it's not as cluttered.
 * Add functionality to input a number of artists and return a recommended playlist.
